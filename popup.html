@@ -3,91 +3,144 @@
 <head>
   <meta charset="utf-8">
   <style>
+    /* Global Reset & Variables */
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      width: 300px;
-      background: #1e1e2e;
-      color: #cdd6f4;
+    :root {
+      --bg: #1e1e2e;
+      --surface: #313244;
+      --overlay: #45475a;
+      --text: #cdd6f4;
+      --subtext: #a6adc8;
+      --muted: #6c7086;
+      --accent: #cba6f7;
+      --accent-hover: #b4befe;
+      --success: #a6e3a1;
     }
 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      width: 300px;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* Header & Branding */
     .header {
-      padding: 14px 16px 10px;
-      border-bottom: 1px solid #313244;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--surface);
     }
 
     .header h2 {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
-      color: #cba6f7;
-      margin-bottom: 10px;
+      color: var(--accent);
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
+    /* Inputs & Search */
     #search {
       width: 100%;
-      padding: 7px 10px;
+      padding: 8px 12px;
       border-radius: 6px;
-      border: 1px solid #45475a;
-      background: #313244;
-      color: #cdd6f4;
+      border: 1px solid var(--overlay);
+      background: var(--surface);
+      color: var(--text);
       font-size: 12px;
       outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    #search:focus { border-color: #cba6f7; }
-    #search::placeholder { color: #6c7086; }
+    #search:focus { 
+      border-color: var(--accent); 
+      box-shadow: 0 0 0 3px rgba(203, 166, 247, 0.15);
+    }
+    #search::placeholder { color: var(--muted); }
 
-    .body { padding: 12px 16px; }
+    /* Main Container */
+    .body { padding: 14px 16px 16px; }
 
     label.field-label {
       font-size: 11px;
-      color: #a6adc8;
+      font-weight: 600;
+      color: var(--subtext);
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
+    /* Select Dropdown Box */
     select {
       width: 100%;
-      padding: 8px;
+      padding: 6px;
       border-radius: 6px;
-      border: 1px solid #45475a;
-      background: #313244;
-      color: #cdd6f4;
+      border: 1px solid var(--overlay);
+      background: var(--surface);
+      color: var(--text);
       font-size: 12px;
-      margin-bottom: 12px;
-      max-height: 200px;
+      margin-bottom: 14px;
       outline: none;
+      transition: border-color 0.2s;
     }
 
-    select:focus { border-color: #cba6f7; }
+    select:focus { border-color: var(--accent); }
 
     optgroup {
-      color: #cba6f7;
+      color: var(--accent);
       font-size: 11px;
       font-weight: 600;
+      padding: 6px 4px 4px;
     }
 
     option {
-      color: #cdd6f4;
-      background: #313244;
+      color: var(--text);
+      background: var(--surface);
       font-size: 12px;
-      padding: 2px 0;
+      padding: 5px 8px;
+      margin: 1px 0;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
+    option:checked {
+      background-color: var(--overlay) !important;
+      color: var(--accent);
+    }
+
+    /* Custom Premium Scrollbar for Select box */
+    select::-webkit-scrollbar {
+      width: 6px;
+    }
+    select::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    select::-webkit-scrollbar-thumb {
+      background: var(--overlay);
+      border-radius: 10px;
+    }
+    select::-webkit-scrollbar-thumb:hover {
+      background: var(--muted);
+    }
+
+    /* Toggle Switch Component */
     .toggle-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      padding: 2px 0;
     }
 
     .toggle-row span {
       font-size: 12px;
-      color: #a6adc8;
+      color: var(--subtext);
     }
 
     .toggle {
@@ -102,10 +155,10 @@
     .slider {
       position: absolute;
       inset: 0;
-      background: #45475a;
+      background: var(--overlay);
       border-radius: 20px;
       cursor: pointer;
-      transition: background .2s;
+      transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .slider::before {
@@ -117,49 +170,58 @@
       top: 3px;
       background: white;
       border-radius: 50%;
-      transition: transform .2s;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4);
     }
 
-    input:checked + .slider { background: #cba6f7; }
+    input:checked + .slider { background: var(--accent); }
     input:checked + .slider::before { transform: translateX(16px); }
 
+    /* Control Button */
     button {
       width: 100%;
-      padding: 9px;
-      background: #cba6f7;
-      color: #1e1e2e;
+      padding: 10px;
+      background: var(--accent);
+      color: var(--bg);
       border: none;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      transition: background .15s;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, transform 0.1s;
     }
 
-    button:hover { background: #b4befe; }
+    button:hover { background: var(--accent-hover); }
+    button:active { transform: scale(0.98); }
 
+    /* Status Text Message */
     #status {
       font-size: 11px;
       text-align: center;
-      margin-top: 10px;
-      color: #a6e3a1;
+      margin-top: 12px;
+      color: var(--success);
       min-height: 14px;
+      font-weight: 500;
     }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <h2>🌍 Timezone Spoofer</h2>
+    <h2>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: -1px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      Timezone Controller
+    </h2>
     <input type="text" id="search" placeholder="Search timezone or city...">
   </div>
 
   <div class="body">
     <label class="field-label">Timezone</label>
     <select id="tz" size="8">
-      <option value="">— System default (no spoofing) —</option>
+      <option value="">System default</option>
 
-      <!-- ───────── AFRICA ───────── -->
       <optgroup label="Africa">
         <option value="Africa/Abidjan">Africa/Abidjan (GMT+0)</option>
         <option value="Africa/Accra">Africa/Accra (GMT+0)</option>
@@ -215,7 +277,6 @@
         <option value="Africa/Windhoek">Africa/Windhoek (WAT+1)</option>
       </optgroup>
 
-      <!-- ───────── AMERICAS ───────── -->
       <optgroup label="Americas">
         <option value="America/Adak">America/Adak (HAST-10)</option>
         <option value="America/Anchorage">America/Anchorage (AKST-9)</option>
@@ -365,7 +426,6 @@
         <option value="America/Yellowknife">America/Yellowknife (MST-7)</option>
       </optgroup>
 
-      <!-- ───────── ANTARCTICA ───────── -->
       <optgroup label="Antarctica">
         <option value="Antarctica/Casey">Antarctica/Casey (WST+8)</option>
         <option value="Antarctica/Davis">Antarctica/Davis (DAVT+7)</option>
@@ -380,12 +440,10 @@
         <option value="Antarctica/Vostok">Antarctica/Vostok (VOST+6)</option>
       </optgroup>
 
-      <!-- ───────── ARCTIC ───────── -->
       <optgroup label="Arctic">
         <option value="Arctic/Longyearbyen">Arctic/Longyearbyen (CET+1)</option>
       </optgroup>
 
-      <!-- ───────── ASIA ───────── -->
       <optgroup label="Asia">
         <option value="Asia/Aden">Asia/Aden (AST+3)</option>
         <option value="Asia/Almaty">Asia/Almaty (ALMT+6)</option>
@@ -469,7 +527,6 @@
         <option value="Asia/Yerevan">Asia/Yerevan (AMT+4)</option>
       </optgroup>
 
-      <!-- ───────── ATLANTIC ───────── -->
       <optgroup label="Atlantic">
         <option value="Atlantic/Azores">Atlantic/Azores (AZOT-1)</option>
         <option value="Atlantic/Bermuda">Atlantic/Bermuda (AST-4)</option>
@@ -483,7 +540,6 @@
         <option value="Atlantic/Stanley">Atlantic/Stanley (FKST-3)</option>
       </optgroup>
 
-      <!-- ───────── AUSTRALIA ───────── -->
       <optgroup label="Australia">
         <option value="Australia/Adelaide">Australia/Adelaide (ACST+9.5)</option>
         <option value="Australia/Brisbane">Australia/Brisbane (AEST+10)</option>
@@ -499,7 +555,6 @@
         <option value="Australia/Sydney">Australia/Sydney (AEST+10)</option>
       </optgroup>
 
-      <!-- ───────── EUROPE ───────── -->
       <optgroup label="Europe">
         <option value="Europe/Amsterdam">Europe/Amsterdam (CET+1)</option>
         <option value="Europe/Andorra">Europe/Andorra (CET+1)</option>
@@ -549,7 +604,7 @@
         <option value="Europe/Tallinn">Europe/Tallinn (EET+2)</option>
         <option value="Europe/Tirane">Europe/Tirane (CET+1)</option>
         <option value="Europe/Uzhgorod">Europe/Uzhgorod (EET+2)</option>
-        <option value="Europe/Vaduz">Europe/Vaduz (CET+1)</option>
+        <option value="Europe/Vaduz =">Europe/Vaduz (CET+1)</option>
         <option value="Europe/Vatican">Europe/Vatican (CET+1)</option>
         <option value="Europe/Vienna">Europe/Vienna (CET+1)</option>
         <option value="Europe/Vilnius">Europe/Vilnius (EET+2)</option>
@@ -560,7 +615,6 @@
         <option value="Europe/Zurich">Europe/Zurich (CET+1)</option>
       </optgroup>
 
-      <!-- ───────── INDIAN OCEAN ───────── -->
       <optgroup label="Indian Ocean">
         <option value="Indian/Antananarivo">Indian/Antananarivo (EAT+3)</option>
         <option value="Indian/Chagos">Indian/Chagos (IOT+6)</option>
@@ -575,7 +629,6 @@
         <option value="Indian/Reunion">Indian/Reunion (RET+4)</option>
       </optgroup>
 
-      <!-- ───────── PACIFIC ───────── -->
       <optgroup label="Pacific">
         <option value="Pacific/Apia">Pacific/Apia (WST+13)</option>
         <option value="Pacific/Auckland">Pacific/Auckland (NZST+12)</option>
@@ -617,7 +670,6 @@
         <option value="Pacific/Wallis">Pacific/Wallis (WFT+12)</option>
       </optgroup>
 
-      <!-- ───────── UTC ───────── -->
       <optgroup label="UTC">
         <option value="UTC">UTC (UTC+0)</option>
       </optgroup>
@@ -625,7 +677,7 @@
     </select>
 
     <div class="toggle-row">
-      <span>Enable spoofing</span>
+      <span>Enable Timezone change</span>
       <label class="toggle">
         <input type="checkbox" id="enabled" checked>
         <span class="slider"></span>

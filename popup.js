@@ -30,15 +30,30 @@ searchBox.addEventListener('input', () => {
   });
 });
 
+// Apply timezone and refresh tab
 applyBtn.addEventListener('click', async () => {
   const tz      = tzSelect.value;
   const enabled = enabledCb.checked;
 
+  // 1. Save the new settings
   await chrome.storage.local.set({ timezone: tz, enabled });
 
+  // 2. Update the UI
   status.textContent = tz
-    ? `✓ Applied: ${tz}`
-    : '✓ Reverted to system timezone';
+    ? `✓ Applied: ${tz}. Refreshing...`
+    : '✓ Reverted to system. Refreshing...';
 
+  // 3. Reload the active tab so changes take effect
+  try {
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tabs[0]?.id) {
+      await chrome.tabs.reload(tabs[0].id);
+    }
+  } catch (err) {
+    console.error("Failed to reload tab:", err);
+    status.textContent = "Saved, but failed to refresh tab.";
+  }
+
+  // 4. Close the popup
   setTimeout(() => window.close(), 900);
 });
