@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      width: 300px;
+      background: #1e1e2e;
+      color: #cdd6f4;
+    }
+
+    .header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid #313244;
+    }
+
+    .header h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #cba6f7;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #search {
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: 6px;
+      border: 1px solid #45475a;
+      background: #313244;
+      color: #cdd6f4;
+      font-size: 12px;
+      outline: none;
+    }
+
+    #search:focus { border-color: #cba6f7; }
+    #search::placeholder { color: #6c7086; }
+
+    .body { padding: 12px 16px; }
+
+    label.field-label {
+      font-size: 11px;
+      color: #a6adc8;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #45475a;
+      background: #313244;
+      color: #cdd6f4;
+      font-size: 12px;
+      margin-bottom: 12px;
+      max-height: 200px;
+      outline: none;
+    }
+
+    select:focus { border-color: #cba6f7; }
+
+    optgroup {
+      color: #cba6f7;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    option {
+      color: #cdd6f4;
+      background: #313244;
+      font-size: 12px;
+      padding: 2px 0;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .toggle-row span {
+      font-size: 12px;
+      color: #a6adc8;
+    }
+
+    .toggle {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #45475a;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .slider::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      left: 3px;
+      top: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: transform .2s;
+    }
+
+    input:checked + .slider { background: #cba6f7; }
+    input:checked + .slider::before { transform: translateX(16px); }
+
+    button {
+      width: 100%;
+      padding: 9px;
+      background: #cba6f7;
+      color: #1e1e2e;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    button:hover { background: #b4befe; }
+
+    #status {
+      font-size: 11px;
+      text-align: center;
+      margin-top: 10px;
+      color: #a6e3a1;
+      min-height: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2>🌍 Timezone Spoofer</h2>
+    <input type="text" id="search" placeholder="Search timezone or city...">
+  </div>
+
+  <div class="body">
+    <label class="field-label">Timezone</label>
+    <select id="tz" size="8">
+      <option value="">— System default (no spoofing) —</option>
+
+      <!-- ───────── AFRICA ───────── -->
+      <optgroup label="Africa">
+        <option value="Africa/Abidjan">Africa/Abidjan (GMT+0)</option>
+        <option value="Africa/Accra">Africa/Accra (GMT+0)</option>
+        <option value="Africa/Addis_Ababa">Africa/Addis_Ababa (EAT+3)</option>
+        <option value="Africa/Algiers">Africa/Algiers (CET+1)</option>
+        <option value="Africa/Asmara">Africa/Asmara (EAT+3)</option>
+        <option value="Africa/Bamako">Africa/Bamako (GMT+0)</option>
+        <option value="Africa/Bangui">Africa/Bangui (WAT+1)</option>
+        <option value="Africa/Banjul">Africa/Banjul (GMT+0)</option>
+        <option value="Africa/Bissau">Africa/Bissau (GMT+0)</option>
+        <option value="Africa/Blantyre">Africa/Blantyre (CAT+2)</option>
+        <option value="Africa/Brazzaville">Africa/Brazzaville (WAT+1)</option>
+        <option value="Africa/Bujumbura">Africa/Bujumbura (CAT+2)</option>
+        <option value="Africa/Cairo">Africa/Cairo (EET+2)</option>
+        <option value="Africa/Casablanca">Africa/Casablanca (WET+0)</option>
+        <option value="Africa/Ceuta">Africa/Ceuta (CET+1)</option>
+        <option value="Africa/Conakry">Africa/Conakry (GMT+0)</option>
+        <option value="Africa/Dakar">Africa/Dakar (GMT+0)</option>
+        <option value="Africa/Dar_es_Salaam">Africa/Dar_es_Salaam (EAT+3)</option>
+        <option value="Africa/Djibouti">Africa/Djibouti (EAT+3)</option>
+        <option value="Africa/Douala">Africa/Douala (WAT+1)</option>
+        <option value="Africa/El_Aaiun">Africa/El_Aaiun (WET+0)</option>
+        <option value="Africa/Freetown">Africa/Freetown (GMT+0)</option>
+        <option value="Africa/Gaborone">Africa/Gaborone (CAT+2)</option>
+        <option value="Africa/Harare">Africa/Harare (CAT+2)</option>
+        <option value="Africa/Johannesburg">Africa/Johannesburg (SAST+2)</option>
+        <option value="Africa/Juba">Africa/Juba (EAT+3)</option>
+        <option value="Africa/Kampala">Africa/Kampala (EAT+3)</option>
+        <option value="Africa/Khartoum">Africa/Khartoum (CAT+2)</option>
+        <option value="Africa/Kigali">Africa/Kigali (CAT+2)</option>
+        <option value="Africa/Kinshasa">Africa/Kinshasa (WAT+1)</option>
+        <option value="Africa/Lagos">Africa/Lagos (WAT+1)</option>
+        <option value="Africa/Libreville">Africa/Libreville (WAT+1)</option>
+        <option value="Africa/Lome">Africa/Lome (GMT+0)</option>
+        <option value="Africa/Luanda">Africa/Luanda (WAT+1)</option>
+        <option value="Africa/Lubumbashi">Africa/Lubumbashi (CAT+2)</option>
+        <option value="Africa/Lusaka">Africa/Lusaka (CAT+2)</option>
+        <option value="Africa/Malabo">Africa/Malabo (WAT+1)</option>
+        <option value="Africa/Maputo">Africa/Maputo (CAT+2)</option>
+        <option value="Africa/Maseru">Africa/Maseru (SAST+2)</option>
+        <option value="Africa/Mbabane">Africa/Mbabane (SAST+2)</option>
+        <option value="Africa/Mogadishu">Africa/Mogadishu (EAT+3)</option>
+        <option value="Africa/Monrovia">Africa/Monrovia (GMT+0)</option>
+        <option value="Africa/Nairobi">Africa/Nairobi (EAT+3)</option>
+        <option value="Africa/Ndjamena">Africa/Ndjamena (WAT+1)</option>
+        <option value="Africa/Niamey">Africa/Niamey (WAT+1)</option>
+        <option value="Africa/Nouakchott">Africa/Nouakchott (GMT+0)</option>
+        <option value="Africa/Ouagadougou">Africa/Ouagadougou (GMT+0)</option>
+        <option value="Africa/Porto-Novo">Africa/Porto-Novo (WAT+1)</option>
+        <option value="Africa/Sao_Tome">Africa/Sao_Tome (GMT+0)</option>
+        <option value="Africa/Tripoli">Africa/Tripoli (EET+2)</option>
+        <option value="Africa/Tunis">Africa/Tunis (CET+1)</option>
+        <option value="Africa/Windhoek">Africa/Windhoek (WAT+1)</option>
+      </optgroup>
+
+      <!-- ───────── AMERICAS ───────── -->
+      <optgroup label="Americas">
+        <option value="America/Adak">America/Adak (HAST-10)</option>
+        <option value="America/Anchorage">America/Anchorage (AKST-9)</option>
+        <option value="America/Anguilla">America/Anguilla (AST-4)</option>
+        <option value="America/Antigua">America/Antigua (AST-4)</option>
+        <option value="America/Araguaina">America/Araguaina (BRT-3)</option>
+        <option value="America/Argentina/Buenos_Aires">America/Argentina/Buenos_Aires (ART-3)</option>
+        <option value="America/Argentina/Catamarca">America/Argentina/Catamarca (ART-3)</option>
+        <option value="America/Argentina/Cordoba">America/Argentina/Cordoba (ART-3)</option>
+        <option value="America/Argentina/Jujuy">America/Argentina/Jujuy (ART-3)</option>
+        <option value="America/Argentina/La_Rioja">America/Argentina/La_Rioja (ART-3)</option>
+        <option value="America/Argentina/Mendoza">America/Argentina/Mendoza (ART-3)</option>
+        <option value="America/Argentina/Rio_Gallegos">America/Argentina/Rio_Gallegos (ART-3)</option>
+        <option value="America/Argentina/Salta">America/Argentina/Salta (ART-3)</option>
+        <option value="America/Argentina/San_Juan">America/Argentina/San_Juan (ART-3)</option>
+        <option value="America/Argentina/San_Luis">America/Argentina/San_Luis (ART-3)</option>
+        <option value="America/Argentina/Tucuman">America/Argentina/Tucuman (ART-3)</option>
+        <option value="America/Argentina/Ushuaia">America/Argentina/Ushuaia (ART-3)</option>
+        <option value="America/Aruba">America/Aruba (AST-4)</option>
+        <option value="America/Asuncion">America/Asuncion (PYT-4)</option>
+        <option value="America/Atikokan">America/Atikokan (EST-5)</option>
+        <option value="America/Bahia">America/Bahia (BRT-3)</option>
+        <option value="America/Bahia_Banderas">America/Bahia_Banderas (CST-6)</option>
+        <option value="America/Barbados">America/Barbados (AST-4)</option>
+        <option value="America/Belem">America/Belem (BRT-3)</option>
+        <option value="America/Belize">America/Belize (CST-6)</option>
+        <option value="America/Blanc-Sablon">America/Blanc-Sablon (AST-4)</option>
+        <option value="America/Boa_Vista">America/Boa_Vista (AMT-4)</option>
+        <option value="America/Bogota">America/Bogota (COT-5)</option>
+        <option value="America/Boise">America/Boise (MST-7)</option>
+        <option value="America/Cambridge_Bay">America/Cambridge_Bay (MST-7)</option>
+        <option value="America/Campo_Grande">America/Campo_Grande (AMT-4)</option>
+        <option value="America/Cancun">America/Cancun (EST-5)</option>
+        <option value="America/Caracas">America/Caracas (VET-4)</option>
+        <option value="America/Cayenne">America/Cayenne (GFT-3)</option>
+        <option value="America/Cayman">America/Cayman (EST-5)</option>
+        <option value="America/Chicago">America/Chicago (CST-6)</option>
+        <option value="America/Chihuahua">America/Chihuahua (MST-7)</option>
+        <option value="America/Costa_Rica">America/Costa_Rica (CST-6)</option>
+        <option value="America/Creston">America/Creston (MST-7)</option>
+        <option value="America/Cuiaba">America/Cuiaba (AMT-4)</option>
+        <option value="America/Curacao">America/Curacao (AST-4)</option>
+        <option value="America/Danmarkshavn">America/Danmarkshavn (GMT+0)</option>
+        <option value="America/Dawson">America/Dawson (PST-8)</option>
+        <option value="America/Dawson_Creek">America/Dawson_Creek (MST-7)</option>
+        <option value="America/Denver">America/Denver (MST-7)</option>
+        <option value="America/Detroit">America/Detroit (EST-5)</option>
+        <option value="America/Dominica">America/Dominica (AST-4)</option>
+        <option value="America/Edmonton">America/Edmonton (MST-7)</option>
+        <option value="America/Eirunepe">America/Eirunepe (AMT-5)</option>
+        <option value="America/El_Salvador">America/El_Salvador (CST-6)</option>
+        <option value="America/Fortaleza">America/Fortaleza (BRT-3)</option>
+        <option value="America/Glace_Bay">America/Glace_Bay (AST-4)</option>
+        <option value="America/Godthab">America/Godthab (WGT-3)</option>
+        <option value="America/Goose_Bay">America/Goose_Bay (AST-4)</option>
+        <option value="America/Grand_Turk">America/Grand_Turk (EST-5)</option>
+        <option value="America/Grenada">America/Grenada (AST-4)</option>
+        <option value="America/Guadeloupe">America/Guadeloupe (AST-4)</option>
+        <option value="America/Guatemala">America/Guatemala (CST-6)</option>
+        <option value="America/Guayaquil">America/Guayaquil (ECT-5)</option>
+        <option value="America/Guyana">America/Guyana (GYT-4)</option>
+        <option value="America/Halifax">America/Halifax (AST-4)</option>
+        <option value="America/Havana">America/Havana (CST-5)</option>
+        <option value="America/Hermosillo">America/Hermosillo (MST-7)</option>
+        <option value="America/Indiana/Indianapolis">America/Indiana/Indianapolis (EST-5)</option>
+        <option value="America/Indiana/Knox">America/Indiana/Knox (CST-6)</option>
+        <option value="America/Indiana/Marengo">America/Indiana/Marengo (EST-5)</option>
+        <option value="America/Indiana/Petersburg">America/Indiana/Petersburg (EST-5)</option>
+        <option value="America/Indiana/Tell_City">America/Indiana/Tell_City (CST-6)</option>
+        <option value="America/Indiana/Vevay">America/Indiana/Vevay (EST-5)</option>
+        <option value="America/Indiana/Vincennes">America/Indiana/Vincennes (EST-5)</option>
+        <option value="America/Indiana/Winamac">America/Indiana/Winamac (EST-5)</option>
+        <option value="America/Inuvik">America/Inuvik (MST-7)</option>
+        <option value="America/Iqaluit">America/Iqaluit (EST-5)</option>
+        <option value="America/Jamaica">America/Jamaica (EST-5)</option>
+        <option value="America/Juneau">America/Juneau (AKST-9)</option>
+        <option value="America/Kentucky/Louisville">America/Kentucky/Louisville (EST-5)</option>
+        <option value="America/Kentucky/Monticello">America/Kentucky/Monticello (EST-5)</option>
+        <option value="America/Kralendijk">America/Kralendijk (AST-4)</option>
+        <option value="America/La_Paz">America/La_Paz (BOT-4)</option>
+        <option value="America/Lima">America/Lima (PET-5)</option>
+        <option value="America/Los_Angeles">America/Los_Angeles (PST-8)</option>
+        <option value="America/Lower_Princes">America/Lower_Princes (AST-4)</option>
+        <option value="America/Maceio">America/Maceio (BRT-3)</option>
+        <option value="America/Managua">America/Managua (CST-6)</option>
+        <option value="America/Manaus">America/Manaus (AMT-4)</option>
+        <option value="America/Marigot">America/Marigot (AST-4)</option>
+        <option value="America/Martinique">America/Martinique (AST-4)</option>
+        <option value="America/Matamoros">America/Matamoros (CST-6)</option>
+        <option value="America/Mazatlan">America/Mazatlan (MST-7)</option>
+        <option value="America/Menominee">America/Menominee (CST-6)</option>
+        <option value="America/Merida">America/Merida (CST-6)</option>
+        <option value="America/Metlakatla">America/Metlakatla (AKST-9)</option>
+        <option value="America/Mexico_City">America/Mexico_City (CST-6)</option>
+        <option value="America/Miquelon">America/Miquelon (PMST-3)</option>
+        <option value="America/Moncton">America/Moncton (AST-4)</option>
+        <option value="America/Monterrey">America/Monterrey (CST-6)</option>
+        <option value="America/Montevideo">America/Montevideo (UYT-3)</option>
+        <option value="America/Montserrat">America/Montserrat (AST-4)</option>
+        <option value="America/Nassau">America/Nassau (EST-5)</option>
+        <option value="America/New_York">America/New_York (EST-5)</option>
+        <option value="America/Nipigon">America/Nipigon (EST-5)</option>
+        <option value="America/Nome">America/Nome (AKST-9)</option>
+        <option value="America/Noronha">America/Noronha (FNT-2)</option>
+        <option value="America/North_Dakota/Beulah">America/North_Dakota/Beulah (CST-6)</option>
+        <option value="America/North_Dakota/Center">America/North_Dakota/Center (CST-6)</option>
+        <option value="America/North_Dakota/New_Salem">America/North_Dakota/New_Salem (CST-6)</option>
+        <option value="America/Ojinaga">America/Ojinaga (MST-7)</option>
+        <option value="America/Panama">America/Panama (EST-5)</option>
+        <option value="America/Pangnirtung">America/Pangnirtung (EST-5)</option>
+        <option value="America/Paramaribo">America/Paramaribo (SRT-3)</option>
+        <option value="America/Phoenix">America/Phoenix (MST-7)</option>
+        <option value="America/Port-au-Prince">America/Port-au-Prince (EST-5)</option>
+        <option value="America/Port_of_Spain">America/Port_of_Spain (AST-4)</option>
+        <option value="America/Porto_Velho">America/Porto_Velho (AMT-4)</option>
+        <option value="America/Puerto_Rico">America/Puerto_Rico (AST-4)</option>
+        <option value="America/Rainy_River">America/Rainy_River (CST-6)</option>
+        <option value="America/Rankin_Inlet">America/Rankin_Inlet (CST-6)</option>
+        <option value="America/Recife">America/Recife (BRT-3)</option>
+        <option value="America/Regina">America/Regina (CST-6)</option>
+        <option value="America/Resolute">America/Resolute (CST-6)</option>
+        <option value="America/Rio_Branco">America/Rio_Branco (AMT-5)</option>
+        <option value="America/Santa_Isabel">America/Santa_Isabel (PST-8)</option>
+        <option value="America/Santarem">America/Santarem (BRT-3)</option>
+        <option value="America/Santiago">America/Santiago (CLT-4)</option>
+        <option value="America/Santo_Domingo">America/Santo_Domingo (AST-4)</option>
+        <option value="America/Sao_Paulo">America/Sao_Paulo (BRT-3)</option>
+        <option value="America/Scoresbysund">America/Scoresbysund (EGT-1)</option>
+        <option value="America/Sitka">America/Sitka (AKST-9)</option>
+        <option value="America/St_Barthelemy">America/St_Barthelemy (AST-4)</option>
+        <option value="America/St_Johns">America/St_Johns (NST-3.5)</option>
+        <option value="America/St_Kitts">America/St_Kitts (AST-4)</option>
+        <option value="America/St_Lucia">America/St_Lucia (AST-4)</option>
+        <option value="America/St_Thomas">America/St_Thomas (AST-4)</option>
+        <option value="America/St_Vincent">America/St_Vincent (AST-4)</option>
+        <option value="America/Swift_Current">America/Swift_Current (CST-6)</option>
+        <option value="America/Tegucigalpa">America/Tegucigalpa (CST-6)</option>
+        <option value="America/Thule">America/Thule (AST-4)</option>
+        <option value="America/Thunder_Bay">America/Thunder_Bay (EST-5)</option>
+        <option value="America/Tijuana">America/Tijuana (PST-8)</option>
+        <option value="America/Toronto">America/Toronto (EST-5)</option>
+        <option value="America/Tortola">America/Tortola (AST-4)</option>
+        <option value="America/Vancouver">America/Vancouver (PST-8)</option>
+        <option value="America/Whitehorse">America/Whitehorse (PST-8)</option>
+        <option value="America/Winnipeg">America/Winnipeg (CST-6)</option>
+        <option value="America/Yakutat">America/Yakutat (AKST-9)</option>
+        <option value="America/Yellowknife">America/Yellowknife (MST-7)</option>
+      </optgroup>
+
+      <!-- ───────── ANTARCTICA ───────── -->
+      <optgroup label="Antarctica">
+        <option value="Antarctica/Casey">Antarctica/Casey (WST+8)</option>
+        <option value="Antarctica/Davis">Antarctica/Davis (DAVT+7)</option>
+        <option value="Antarctica/DumontDUrville">Antarctica/DumontDUrville (DDUT+10)</option>
+        <option value="Antarctica/Macquarie">Antarctica/Macquarie (MIST+11)</option>
+        <option value="Antarctica/Mawson">Antarctica/Mawson (MAWT+5)</option>
+        <option value="Antarctica/McMurdo">Antarctica/McMurdo (NZST+12)</option>
+        <option value="Antarctica/Palmer">Antarctica/Palmer (CLT-4)</option>
+        <option value="Antarctica/Rothera">Antarctica/Rothera (ROTT-3)</option>
+        <option value="Antarctica/Syowa">Antarctica/Syowa (SYOT+3)</option>
+        <option value="Antarctica/Troll">Antarctica/Troll (UTC+0)</option>
+        <option value="Antarctica/Vostok">Antarctica/Vostok (VOST+6)</option>
+      </optgroup>
+
+      <!-- ───────── ARCTIC ───────── -->
+      <optgroup label="Arctic">
+        <option value="Arctic/Longyearbyen">Arctic/Longyearbyen (CET+1)</option>
+      </optgroup>
+
+      <!-- ───────── ASIA ───────── -->
+      <optgroup label="Asia">
+        <option value="Asia/Aden">Asia/Aden (AST+3)</option>
+        <option value="Asia/Almaty">Asia/Almaty (ALMT+6)</option>
+        <option value="Asia/Amman">Asia/Amman (EET+2)</option>
+        <option value="Asia/Anadyr">Asia/Anadyr (ANAT+12)</option>
+        <option value="Asia/Aqtau">Asia/Aqtau (AQTT+5)</option>
+        <option value="Asia/Aqtobe">Asia/Aqtobe (AQTT+5)</option>
+        <option value="Asia/Ashgabat">Asia/Ashgabat (TMT+5)</option>
+        <option value="Asia/Baghdad">Asia/Baghdad (AST+3)</option>
+        <option value="Asia/Bahrain">Asia/Bahrain (AST+3)</option>
+        <option value="Asia/Baku">Asia/Baku (AZT+4)</option>
+        <option value="Asia/Bangkok">Asia/Bangkok (ICT+7)</option>
+        <option value="Asia/Beirut">Asia/Beirut (EET+2)</option>
+        <option value="Asia/Bishkek">Asia/Bishkek (KGT+6)</option>
+        <option value="Asia/Brunei">Asia/Brunei (BNT+8)</option>
+        <option value="Asia/Choibalsan">Asia/Choibalsan (CHOT+8)</option>
+        <option value="Asia/Chongqing">Asia/Chongqing (CST+8)</option>
+        <option value="Asia/Colombo">Asia/Colombo (IST+5.5)</option>
+        <option value="Asia/Damascus">Asia/Damascus (EET+2)</option>
+        <option value="Asia/Dhaka">Asia/Dhaka (BDT+6)</option>
+        <option value="Asia/Dili">Asia/Dili (TLT+9)</option>
+        <option value="Asia/Dubai">Asia/Dubai (GST+4)</option>
+        <option value="Asia/Dushanbe">Asia/Dushanbe (TJT+5)</option>
+        <option value="Asia/Gaza">Asia/Gaza (EET+2)</option>
+        <option value="Asia/Harbin">Asia/Harbin (CST+8)</option>
+        <option value="Asia/Hebron">Asia/Hebron (EET+2)</option>
+        <option value="Asia/Ho_Chi_Minh">Asia/Ho_Chi_Minh (ICT+7)</option>
+        <option value="Asia/Hong_Kong">Asia/Hong_Kong (HKT+8)</option>
+        <option value="Asia/Hovd">Asia/Hovd (HOVT+7)</option>
+        <option value="Asia/Irkutsk">Asia/Irkutsk (IRKT+8)</option>
+        <option value="Asia/Jakarta">Asia/Jakarta (WIB+7)</option>
+        <option value="Asia/Jayapura">Asia/Jayapura (WIT+9)</option>
+        <option value="Asia/Jerusalem">Asia/Jerusalem (IST+2)</option>
+        <option value="Asia/Kabul">Asia/Kabul (AFT+4.5)</option>
+        <option value="Asia/Kamchatka">Asia/Kamchatka (PETT+12)</option>
+        <option value="Asia/Karachi">Asia/Karachi (PKT+5)</option>
+        <option value="Asia/Kashgar">Asia/Kashgar (CST+8)</option>
+        <option value="Asia/Kathmandu">Asia/Kathmandu (NPT+5.75)</option>
+        <option value="Asia/Khandyga">Asia/Khandyga (YAKT+9)</option>
+        <option value="Asia/Kolkata">Asia/Kolkata (IST+5.5)</option>
+        <option value="Asia/Krasnoyarsk">Asia/Krasnoyarsk (KRAT+7)</option>
+        <option value="Asia/Kuala_Lumpur">Asia/Kuala_Lumpur (MYT+8)</option>
+        <option value="Asia/Kuching">Asia/Kuching (MYT+8)</option>
+        <option value="Asia/Kuwait">Asia/Kuwait (AST+3)</option>
+        <option value="Asia/Macau">Asia/Macau (CST+8)</option>
+        <option value="Asia/Magadan">Asia/Magadan (MAGT+10)</option>
+        <option value="Asia/Makassar">Asia/Makassar (WITA+8)</option>
+        <option value="Asia/Manila">Asia/Manila (PHT+8)</option>
+        <option value="Asia/Muscat">Asia/Muscat (GST+4)</option>
+        <option value="Asia/Nicosia">Asia/Nicosia (EET+2)</option>
+        <option value="Asia/Novokuznetsk">Asia/Novokuznetsk (KRAT+7)</option>
+        <option value="Asia/Novosibirsk">Asia/Novosibirsk (NOVT+6)</option>
+        <option value="Asia/Omsk">Asia/Omsk (OMST+6)</option>
+        <option value="Asia/Oral">Asia/Oral (ORAT+5)</option>
+        <option value="Asia/Phnom_Penh">Asia/Phnom_Penh (ICT+7)</option>
+        <option value="Asia/Pontianak">Asia/Pontianak (WIB+7)</option>
+        <option value="Asia/Pyongyang">Asia/Pyongyang (KST+9)</option>
+        <option value="Asia/Qatar">Asia/Qatar (AST+3)</option>
+        <option value="Asia/Qyzylorda">Asia/Qyzylorda (QYZT+6)</option>
+        <option value="Asia/Rangoon">Asia/Rangoon (MMT+6.5)</option>
+        <option value="Asia/Riyadh">Asia/Riyadh (AST+3)</option>
+        <option value="Asia/Sakhalin">Asia/Sakhalin (SAKT+11)</option>
+        <option value="Asia/Samarkand">Asia/Samarkand (UZT+5)</option>
+        <option value="Asia/Seoul">Asia/Seoul (KST+9)</option>
+        <option value="Asia/Shanghai">Asia/Shanghai (CST+8)</option>
+        <option value="Asia/Singapore">Asia/Singapore (SGT+8)</option>
+        <option value="Asia/Srednekolymsk">Asia/Srednekolymsk (SRET+11)</option>
+        <option value="Asia/Taipei">Asia/Taipei (CST+8)</option>
+        <option value="Asia/Tashkent">Asia/Tashkent (UZT+5)</option>
+        <option value="Asia/Tbilisi">Asia/Tbilisi (GET+4)</option>
+        <option value="Asia/Tehran">Asia/Tehran (IRST+3.5)</option>
+        <option value="Asia/Thimphu">Asia/Thimphu (BTT+6)</option>
+        <option value="Asia/Tokyo">Asia/Tokyo (JST+9)</option>
+        <option value="Asia/Ulaanbaatar">Asia/Ulaanbaatar (ULAT+8)</option>
+        <option value="Asia/Urumqi">Asia/Urumqi (CST+8)</option>
+        <option value="Asia/Ust-Nera">Asia/Ust-Nera (VLAT+11)</option>
+        <option value="Asia/Vientiane">Asia/Vientiane (ICT+7)</option>
+        <option value="Asia/Vladivostok">Asia/Vladivostok (VLAT+10)</option>
+        <option value="Asia/Yakutsk">Asia/Yakutsk (YAKT+9)</option>
+        <option value="Asia/Yekaterinburg">Asia/Yekaterinburg (YEKT+5)</option>
+        <option value="Asia/Yerevan">Asia/Yerevan (AMT+4)</option>
+      </optgroup>
+
+      <!-- ───────── ATLANTIC ───────── -->
+      <optgroup label="Atlantic">
+        <option value="Atlantic/Azores">Atlantic/Azores (AZOT-1)</option>
+        <option value="Atlantic/Bermuda">Atlantic/Bermuda (AST-4)</option>
+        <option value="Atlantic/Canary">Atlantic/Canary (WET+0)</option>
+        <option value="Atlantic/Cape_Verde">Atlantic/Cape_Verde (CVT-1)</option>
+        <option value="Atlantic/Faroe">Atlantic/Faroe (WET+0)</option>
+        <option value="Atlantic/Madeira">Atlantic/Madeira (WET+0)</option>
+        <option value="Atlantic/Reykjavik">Atlantic/Reykjavik (GMT+0)</option>
+        <option value="Atlantic/South_Georgia">Atlantic/South_Georgia (GST-2)</option>
+        <option value="Atlantic/St_Helena">Atlantic/St_Helena (GMT+0)</option>
+        <option value="Atlantic/Stanley">Atlantic/Stanley (FKST-3)</option>
+      </optgroup>
+
+      <!-- ───────── AUSTRALIA ───────── -->
+      <optgroup label="Australia">
+        <option value="Australia/Adelaide">Australia/Adelaide (ACST+9.5)</option>
+        <option value="Australia/Brisbane">Australia/Brisbane (AEST+10)</option>
+        <option value="Australia/Broken_Hill">Australia/Broken_Hill (ACST+9.5)</option>
+        <option value="Australia/Currie">Australia/Currie (AEST+10)</option>
+        <option value="Australia/Darwin">Australia/Darwin (ACST+9.5)</option>
+        <option value="Australia/Eucla">Australia/Eucla (ACWST+8.75)</option>
+        <option value="Australia/Hobart">Australia/Hobart (AEST+10)</option>
+        <option value="Australia/Lindeman">Australia/Lindeman (AEST+10)</option>
+        <option value="Australia/Lord_Howe">Australia/Lord_Howe (LHST+10.5)</option>
+        <option value="Australia/Melbourne">Australia/Melbourne (AEST+10)</option>
+        <option value="Australia/Perth">Australia/Perth (AWST+8)</option>
+        <option value="Australia/Sydney">Australia/Sydney (AEST+10)</option>
+      </optgroup>
+
+      <!-- ───────── EUROPE ───────── -->
+      <optgroup label="Europe">
+        <option value="Europe/Amsterdam">Europe/Amsterdam (CET+1)</option>
+        <option value="Europe/Andorra">Europe/Andorra (CET+1)</option>
+        <option value="Europe/Athens">Europe/Athens (EET+2)</option>
+        <option value="Europe/Belgrade">Europe/Belgrade (CET+1)</option>
+        <option value="Europe/Berlin">Europe/Berlin (CET+1)</option>
+        <option value="Europe/Bratislava">Europe/Bratislava (CET+1)</option>
+        <option value="Europe/Brussels">Europe/Brussels (CET+1)</option>
+        <option value="Europe/Bucharest">Europe/Bucharest (EET+2)</option>
+        <option value="Europe/Budapest">Europe/Budapest (CET+1)</option>
+        <option value="Europe/Busingen">Europe/Busingen (CET+1)</option>
+        <option value="Europe/Chisinau">Europe/Chisinau (EET+2)</option>
+        <option value="Europe/Copenhagen">Europe/Copenhagen (CET+1)</option>
+        <option value="Europe/Dublin">Europe/Dublin (GMT+0)</option>
+        <option value="Europe/Gibraltar">Europe/Gibraltar (CET+1)</option>
+        <option value="Europe/Guernsey">Europe/Guernsey (GMT+0)</option>
+        <option value="Europe/Helsinki">Europe/Helsinki (EET+2)</option>
+        <option value="Europe/Isle_of_Man">Europe/Isle_of_Man (GMT+0)</option>
+        <option value="Europe/Istanbul">Europe/Istanbul (TRT+3)</option>
+        <option value="Europe/Jersey">Europe/Jersey (GMT+0)</option>
+        <option value="Europe/Kaliningrad">Europe/Kaliningrad (EET+2)</option>
+        <option value="Europe/Kiev">Europe/Kiev (EET+2)</option>
+        <option value="Europe/Lisbon">Europe/Lisbon (WET+0)</option>
+        <option value="Europe/Ljubljana">Europe/Ljubljana (CET+1)</option>
+        <option value="Europe/London">Europe/London (GMT+0)</option>
+        <option value="Europe/Luxembourg">Europe/Luxembourg (CET+1)</option>
+        <option value="Europe/Madrid">Europe/Madrid (CET+1)</option>
+        <option value="Europe/Malta">Europe/Malta (CET+1)</option>
+        <option value="Europe/Mariehamn">Europe/Mariehamn (EET+2)</option>
+        <option value="Europe/Minsk">Europe/Minsk (FET+3)</option>
+        <option value="Europe/Monaco">Europe/Monaco (CET+1)</option>
+        <option value="Europe/Moscow">Europe/Moscow (MSK+3)</option>
+        <option value="Europe/Nicosia">Europe/Nicosia (EET+2)</option>
+        <option value="Europe/Oslo">Europe/Oslo (CET+1)</option>
+        <option value="Europe/Paris">Europe/Paris (CET+1)</option>
+        <option value="Europe/Podgorica">Europe/Podgorica (CET+1)</option>
+        <option value="Europe/Prague">Europe/Prague (CET+1)</option>
+        <option value="Europe/Riga">Europe/Riga (EET+2)</option>
+        <option value="Europe/Rome">Europe/Rome (CET+1)</option>
+        <option value="Europe/Samara">Europe/Samara (SAMT+4)</option>
+        <option value="Europe/San_Marino">Europe/San_Marino (CET+1)</option>
+        <option value="Europe/Sarajevo">Europe/Sarajevo (CET+1)</option>
+        <option value="Europe/Simferopol">Europe/Simferopol (MSK+3)</option>
+        <option value="Europe/Skopje">Europe/Skopje (CET+1)</option>
+        <option value="Europe/Sofia">Europe/Sofia (EET+2)</option>
+        <option value="Europe/Stockholm">Europe/Stockholm (CET+1)</option>
+        <option value="Europe/Tallinn">Europe/Tallinn (EET+2)</option>
+        <option value="Europe/Tirane">Europe/Tirane (CET+1)</option>
+        <option value="Europe/Uzhgorod">Europe/Uzhgorod (EET+2)</option>
+        <option value="Europe/Vaduz">Europe/Vaduz (CET+1)</option>
+        <option value="Europe/Vatican">Europe/Vatican (CET+1)</option>
+        <option value="Europe/Vienna">Europe/Vienna (CET+1)</option>
+        <option value="Europe/Vilnius">Europe/Vilnius (EET+2)</option>
+        <option value="Europe/Volgograd">Europe/Volgograd (MSK+3)</option>
+        <option value="Europe/Warsaw">Europe/Warsaw (CET+1)</option>
+        <option value="Europe/Zagreb">Europe/Zagreb (CET+1)</option>
+        <option value="Europe/Zaporozhye">Europe/Zaporozhye (EET+2)</option>
+        <option value="Europe/Zurich">Europe/Zurich (CET+1)</option>
+      </optgroup>
+
+      <!-- ───────── INDIAN OCEAN ───────── -->
+      <optgroup label="Indian Ocean">
+        <option value="Indian/Antananarivo">Indian/Antananarivo (EAT+3)</option>
+        <option value="Indian/Chagos">Indian/Chagos (IOT+6)</option>
+        <option value="Indian/Christmas">Indian/Christmas (CXT+7)</option>
+        <option value="Indian/Cocos">Indian/Cocos (CCT+6.5)</option>
+        <option value="Indian/Comoro">Indian/Comoro (EAT+3)</option>
+        <option value="Indian/Kerguelen">Indian/Kerguelen (TFT+5)</option>
+        <option value="Indian/Mahe">Indian/Mahe (SCT+4)</option>
+        <option value="Indian/Maldives">Indian/Maldives (MVT+5)</option>
+        <option value="Indian/Mauritius">Indian/Mauritius (MUT+4)</option>
+        <option value="Indian/Mayotte">Indian/Mayotte (EAT+3)</option>
+        <option value="Indian/Reunion">Indian/Reunion (RET+4)</option>
+      </optgroup>
+
+      <!-- ───────── PACIFIC ───────── -->
+      <optgroup label="Pacific">
+        <option value="Pacific/Apia">Pacific/Apia (WST+13)</option>
+        <option value="Pacific/Auckland">Pacific/Auckland (NZST+12)</option>
+        <option value="Pacific/Chatham">Pacific/Chatham (CHAST+12.75)</option>
+        <option value="Pacific/Chuuk">Pacific/Chuuk (CHUT+10)</option>
+        <option value="Pacific/Easter">Pacific/Easter (EAST-6)</option>
+        <option value="Pacific/Efate">Pacific/Efate (VUT+11)</option>
+        <option value="Pacific/Enderbury">Pacific/Enderbury (PHOT+13)</option>
+        <option value="Pacific/Fakaofo">Pacific/Fakaofo (TKT+13)</option>
+        <option value="Pacific/Fiji">Pacific/Fiji (FJT+12)</option>
+        <option value="Pacific/Funafuti">Pacific/Funafuti (TVT+12)</option>
+        <option value="Pacific/Galapagos">Pacific/Galapagos (GALT-6)</option>
+        <option value="Pacific/Gambier">Pacific/Gambier (GAMT-9)</option>
+        <option value="Pacific/Guadalcanal">Pacific/Guadalcanal (SBT+11)</option>
+        <option value="Pacific/Guam">Pacific/Guam (ChST+10)</option>
+        <option value="Pacific/Honolulu">Pacific/Honolulu (HST-10)</option>
+        <option value="Pacific/Johnston">Pacific/Johnston (HST-10)</option>
+        <option value="Pacific/Kiritimati">Pacific/Kiritimati (LINT+14)</option>
+        <option value="Pacific/Kosrae">Pacific/Kosrae (KOST+11)</option>
+        <option value="Pacific/Kwajalein">Pacific/Kwajalein (MHT+12)</option>
+        <option value="Pacific/Majuro">Pacific/Majuro (MHT+12)</option>
+        <option value="Pacific/Marquesas">Pacific/Marquesas (MART-9.5)</option>
+        <option value="Pacific/Midway">Pacific/Midway (SST-11)</option>
+        <option value="Pacific/Nauru">Pacific/Nauru (NRT+12)</option>
+        <option value="Pacific/Niue">Pacific/Niue (NUT-11)</option>
+        <option value="Pacific/Norfolk">Pacific/Norfolk (NFT+11.5)</option>
+        <option value="Pacific/Noumea">Pacific/Noumea (NCT+11)</option>
+        <option value="Pacific/Pago_Pago">Pacific/Pago_Pago (SST-11)</option>
+        <option value="Pacific/Palau">Pacific/Palau (PWT+9)</option>
+        <option value="Pacific/Pitcairn">Pacific/Pitcairn (PST-8)</option>
+        <option value="Pacific/Pohnpei">Pacific/Pohnpei (PONT+11)</option>
+        <option value="Pacific/Port_Moresby">Pacific/Port_Moresby (PGT+10)</option>
+        <option value="Pacific/Rarotonga">Pacific/Rarotonga (CKT-10)</option>
+        <option value="Pacific/Saipan">Pacific/Saipan (ChST+10)</option>
+        <option value="Pacific/Tahiti">Pacific/Tahiti (TAHT-10)</option>
+        <option value="Pacific/Tarawa">Pacific/Tarawa (GILT+12)</option>
+        <option value="Pacific/Tongatapu">Pacific/Tongatapu (TOT+13)</option>
+        <option value="Pacific/Wake">Pacific/Wake (WAKT+12)</option>
+        <option value="Pacific/Wallis">Pacific/Wallis (WFT+12)</option>
+      </optgroup>
+
+      <!-- ───────── UTC ───────── -->
+      <optgroup label="UTC">
+        <option value="UTC">UTC (UTC+0)</option>
+      </optgroup>
+
+    </select>
+
+    <div class="toggle-row">
+      <span>Enable spoofing</span>
+      <label class="toggle">
+        <input type="checkbox" id="enabled" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button id="apply">Apply Timezone</button>
+    <div id="status"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
